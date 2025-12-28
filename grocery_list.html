@@ -1,0 +1,507 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Grocery List</title>
+<style>
+  :root {
+    --pad: 14px;
+    --radius: 14px;
+    --border: #e6e6e6;
+    --text: #111;
+    --muted: #666;
+    --bg: #fafafa;
+    --card: #fff;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    font-family: -apple-system, system-ui, Segoe UI, Roboto, Helvetica, Arial, sans-serif;
+    color: var(--text);
+    background: var(--bg);
+  }
+  header {
+    position: sticky;
+    top: 0;
+    background: rgba(250,250,250,.92);
+    backdrop-filter: blur(8px);
+    border-bottom: 1px solid var(--border);
+    padding: var(--pad);
+    z-index: 2;
+  }
+  .wrap {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: var(--pad);
+  }
+  h1 {
+    margin: 0 0 8px 0;
+    font-size: 20px;
+    font-weight: 700;
+  }
+  .sub {
+    margin: 0;
+    color: var(--muted);
+    font-size: 13px;
+  }
+  .actions {
+    display: flex;
+    gap: 10px;
+    margin-top: 12px;
+    flex-wrap: wrap;
+  }
+  button.action {
+    border: 1px solid var(--border);
+    background: var(--card);
+    padding: 10px 12px;
+    border-radius: 12px;
+    font-size: 14px;
+  }
+  button.action:active { transform: translateY(1px); }
+  .card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    overflow: hidden;
+    margin-bottom: 12px;
+  }
+  .section {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    overflow: hidden;
+    margin-bottom: 12px;
+  }
+  .section-header {
+    width: 100%;
+    text-align: left;
+    padding: 14px;
+    border: 0;
+    background: var(--card);
+    display: flex;
+    align-items: baseline;
+    gap: 10px;
+    cursor: pointer;
+  }
+  .section-header .h {
+    font-weight: 700;
+    font-size: 16px;
+  }
+  .section-header .count {
+    margin-left: auto;
+    color: var(--muted);
+    font-size: 13px;
+  }
+  .section-header .chev {
+    width: 18px;
+    display: inline-block;
+    color: var(--muted);
+  }
+  .section-body {
+    padding: 0 14px 14px 14px;
+  }
+  .item {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    padding: 12px 0;
+    border-bottom: 1px solid var(--border);
+  }
+  .item:last-child { border-bottom: 0; }
+  input[type="checkbox"] {
+    width: 24px;
+    height: 24px;
+    margin-top: 1px;
+    flex: 0 0 auto;
+  }
+  .txt {
+    font-size: 16px;
+    line-height: 1.25;
+  }
+  .checked .txt {
+    color: var(--muted);
+    text-decoration: line-through;
+  }
+</style>
+</head>
+<body>
+<header>
+  <div class="wrap">
+    <h1>Grocery List</h1>
+    <p class="sub">Checks are saved on this device.</p>
+    <div class="actions">
+      <button class="action" type="button" id="btnClear">Clear checks</button>
+      <button class="action" type="button" id="btnExpand">Expand all</button>
+      <button class="action" type="button" id="btnCollapse">Collapse all</button>
+    </div>
+  </div>
+</header>
+
+<main class="wrap">
+  <section class="section" data-section-id="sec-0-aggregated-items-parsed-quantities">
+            <button class="section-header" type="button" data-toggle="sec-0-aggregated-items-parsed-quantities">
+              <span class="chev" aria-hidden="true">▾</span>
+              <span class="h">Aggregated items (parsed quantities)</span>
+              <span class="count" data-count-for="sec-0-aggregated-items-parsed-quantities"></span>
+            </button>
+            <div class="section-body" id="sec-0-aggregated-items-parsed-quantities">
+              <label class="item" for="sec-0-aggregated-items-parsed-quantities-item-0">
+                <input type="checkbox" id="sec-0-aggregated-items-parsed-quantities-item-0" data-item-id="sec-0-aggregated-items-parsed-quantities-item-0" />
+                <span class="txt">2 1 2 tablespoons lemon juice</span>
+              </label><label class="item" for="sec-0-aggregated-items-parsed-quantities-item-1">
+                <input type="checkbox" id="sec-0-aggregated-items-parsed-quantities-item-1" data-item-id="sec-0-aggregated-items-parsed-quantities-item-1" />
+                <span class="txt">2 10 5 ounce cans condensed cream of chicken soup</span>
+              </label><label class="item" for="sec-0-aggregated-items-parsed-quantities-item-2">
+                <input type="checkbox" id="sec-0-aggregated-items-parsed-quantities-item-2" data-item-id="sec-0-aggregated-items-parsed-quantities-item-2" />
+                <span class="txt">3 tbsp balsamic vinegar</span>
+              </label><label class="item" for="sec-0-aggregated-items-parsed-quantities-item-3">
+                <input type="checkbox" id="sec-0-aggregated-items-parsed-quantities-item-3" data-item-id="sec-0-aggregated-items-parsed-quantities-item-3" />
+                <span class="txt">2 tbsp basil</span>
+              </label><label class="item" for="sec-0-aggregated-items-parsed-quantities-item-4">
+                <input type="checkbox" id="sec-0-aggregated-items-parsed-quantities-item-4" data-item-id="sec-0-aggregated-items-parsed-quantities-item-4" />
+                <span class="txt">2 tbsp beef stock</span>
+              </label><label class="item" for="sec-0-aggregated-items-parsed-quantities-item-5">
+                <input type="checkbox" id="sec-0-aggregated-items-parsed-quantities-item-5" data-item-id="sec-0-aggregated-items-parsed-quantities-item-5" />
+                <span class="txt">1 bell pepper</span>
+              </label><label class="item" for="sec-0-aggregated-items-parsed-quantities-item-6">
+                <input type="checkbox" id="sec-0-aggregated-items-parsed-quantities-item-6" data-item-id="sec-0-aggregated-items-parsed-quantities-item-6" />
+                <span class="txt">0.5 tsp black pepper</span>
+              </label><label class="item" for="sec-0-aggregated-items-parsed-quantities-item-7">
+                <input type="checkbox" id="sec-0-aggregated-items-parsed-quantities-item-7" data-item-id="sec-0-aggregated-items-parsed-quantities-item-7" />
+                <span class="txt">4 boneless skinless chicken breasts</span>
+              </label><label class="item" for="sec-0-aggregated-items-parsed-quantities-item-8">
+                <input type="checkbox" id="sec-0-aggregated-items-parsed-quantities-item-8" data-item-id="sec-0-aggregated-items-parsed-quantities-item-8" />
+                <span class="txt">2 breasts</span>
+              </label><label class="item" for="sec-0-aggregated-items-parsed-quantities-item-9">
+                <input type="checkbox" id="sec-0-aggregated-items-parsed-quantities-item-9" data-item-id="sec-0-aggregated-items-parsed-quantities-item-9" />
+                <span class="txt">1 cup cherry tomatoes halved</span>
+              </label><label class="item" for="sec-0-aggregated-items-parsed-quantities-item-10">
+                <input type="checkbox" id="sec-0-aggregated-items-parsed-quantities-item-10" data-item-id="sec-0-aggregated-items-parsed-quantities-item-10" />
+                <span class="txt">2 cup chicken broth</span>
+              </label><label class="item" for="sec-0-aggregated-items-parsed-quantities-item-11">
+                <input type="checkbox" id="sec-0-aggregated-items-parsed-quantities-item-11" data-item-id="sec-0-aggregated-items-parsed-quantities-item-11" />
+                <span class="txt">4 oz cream cheese</span>
+              </label><label class="item" for="sec-0-aggregated-items-parsed-quantities-item-12">
+                <input type="checkbox" id="sec-0-aggregated-items-parsed-quantities-item-12" data-item-id="sec-0-aggregated-items-parsed-quantities-item-12" />
+                <span class="txt">0.125 tsp crushed red pepper flakes</span>
+              </label><label class="item" for="sec-0-aggregated-items-parsed-quantities-item-13">
+                <input type="checkbox" id="sec-0-aggregated-items-parsed-quantities-item-13" data-item-id="sec-0-aggregated-items-parsed-quantities-item-13" />
+                <span class="txt">0.5 tsp dried basil</span>
+              </label><label class="item" for="sec-0-aggregated-items-parsed-quantities-item-14">
+                <input type="checkbox" id="sec-0-aggregated-items-parsed-quantities-item-14" data-item-id="sec-0-aggregated-items-parsed-quantities-item-14" />
+                <span class="txt">0.5 tbsp dried italian herbs</span>
+              </label><label class="item" for="sec-0-aggregated-items-parsed-quantities-item-15">
+                <input type="checkbox" id="sec-0-aggregated-items-parsed-quantities-item-15" data-item-id="sec-0-aggregated-items-parsed-quantities-item-15" />
+                <span class="txt">2 tsp dried oregano</span>
+              </label><label class="item" for="sec-0-aggregated-items-parsed-quantities-item-16">
+                <input type="checkbox" id="sec-0-aggregated-items-parsed-quantities-item-16" data-item-id="sec-0-aggregated-items-parsed-quantities-item-16" />
+                <span class="txt">2 cup dried red lentils rinsed</span>
+              </label><label class="item" for="sec-0-aggregated-items-parsed-quantities-item-17">
+                <input type="checkbox" id="sec-0-aggregated-items-parsed-quantities-item-17" data-item-id="sec-0-aggregated-items-parsed-quantities-item-17" />
+                <span class="txt">1 egg</span>
+              </label><label class="item" for="sec-0-aggregated-items-parsed-quantities-item-18">
+                <input type="checkbox" id="sec-0-aggregated-items-parsed-quantities-item-18" data-item-id="sec-0-aggregated-items-parsed-quantities-item-18" />
+                <span class="txt">2 tbsp extra-virgin olive oil</span>
+              </label><label class="item" for="sec-0-aggregated-items-parsed-quantities-item-19">
+                <input type="checkbox" id="sec-0-aggregated-items-parsed-quantities-item-19" data-item-id="sec-0-aggregated-items-parsed-quantities-item-19" />
+                <span class="txt">14 oz feta cheese</span>
+              </label><label class="item" for="sec-0-aggregated-items-parsed-quantities-item-20">
+                <input type="checkbox" id="sec-0-aggregated-items-parsed-quantities-item-20" data-item-id="sec-0-aggregated-items-parsed-quantities-item-20" />
+                <span class="txt">6 oz feta cheese block crumbles</span>
+              </label><label class="item" for="sec-0-aggregated-items-parsed-quantities-item-21">
+                <input type="checkbox" id="sec-0-aggregated-items-parsed-quantities-item-21" data-item-id="sec-0-aggregated-items-parsed-quantities-item-21" />
+                <span class="txt">7 clove garlic</span>
+              </label><label class="item" for="sec-0-aggregated-items-parsed-quantities-item-22">
+                <input type="checkbox" id="sec-0-aggregated-items-parsed-quantities-item-22" data-item-id="sec-0-aggregated-items-parsed-quantities-item-22" />
+                <span class="txt">2 tsp garlic</span>
+              </label><label class="item" for="sec-0-aggregated-items-parsed-quantities-item-23">
+                <input type="checkbox" id="sec-0-aggregated-items-parsed-quantities-item-23" data-item-id="sec-0-aggregated-items-parsed-quantities-item-23" />
+                <span class="txt">0.5 tsp garlic powder</span>
+              </label><label class="item" for="sec-0-aggregated-items-parsed-quantities-item-24">
+                <input type="checkbox" id="sec-0-aggregated-items-parsed-quantities-item-24" data-item-id="sec-0-aggregated-items-parsed-quantities-item-24" />
+                <span class="txt">4 cup grated pecorino romano cheese 8 months old</span>
+              </label><label class="item" for="sec-0-aggregated-items-parsed-quantities-item-25">
+                <input type="checkbox" id="sec-0-aggregated-items-parsed-quantities-item-25" data-item-id="sec-0-aggregated-items-parsed-quantities-item-25" />
+                <span class="txt">0.25 cup greek yogurt</span>
+              </label><label class="item" for="sec-0-aggregated-items-parsed-quantities-item-26">
+                <input type="checkbox" id="sec-0-aggregated-items-parsed-quantities-item-26" data-item-id="sec-0-aggregated-items-parsed-quantities-item-26" />
+                <span class="txt">0.25 cup green onions</span>
+              </label><label class="item" for="sec-0-aggregated-items-parsed-quantities-item-27">
+                <input type="checkbox" id="sec-0-aggregated-items-parsed-quantities-item-27" data-item-id="sec-0-aggregated-items-parsed-quantities-item-27" />
+                <span class="txt">2 lb ground beef</span>
+              </label><label class="item" for="sec-0-aggregated-items-parsed-quantities-item-28">
+                <input type="checkbox" id="sec-0-aggregated-items-parsed-quantities-item-28" data-item-id="sec-0-aggregated-items-parsed-quantities-item-28" />
+                <span class="txt">1 lb ground chicken</span>
+              </label><label class="item" for="sec-0-aggregated-items-parsed-quantities-item-29">
+                <input type="checkbox" id="sec-0-aggregated-items-parsed-quantities-item-29" data-item-id="sec-0-aggregated-items-parsed-quantities-item-29" />
+                <span class="txt">1 tbsp ground pepper</span>
+              </label><label class="item" for="sec-0-aggregated-items-parsed-quantities-item-30">
+                <input type="checkbox" id="sec-0-aggregated-items-parsed-quantities-item-30" data-item-id="sec-0-aggregated-items-parsed-quantities-item-30" />
+                <span class="txt">1 cup heavy whipping cream</span>
+              </label><label class="item" for="sec-0-aggregated-items-parsed-quantities-item-31">
+                <input type="checkbox" id="sec-0-aggregated-items-parsed-quantities-item-31" data-item-id="sec-0-aggregated-items-parsed-quantities-item-31" />
+                <span class="txt">0.333333 cup hot sauce i used frank s red hot</span>
+              </label><label class="item" for="sec-0-aggregated-items-parsed-quantities-item-32">
+                <input type="checkbox" id="sec-0-aggregated-items-parsed-quantities-item-32" data-item-id="sec-0-aggregated-items-parsed-quantities-item-32" />
+                <span class="txt">0.5 cup italian seasoned bread crumbs</span>
+              </label><label class="item" for="sec-0-aggregated-items-parsed-quantities-item-33">
+                <input type="checkbox" id="sec-0-aggregated-items-parsed-quantities-item-33" data-item-id="sec-0-aggregated-items-parsed-quantities-item-33" />
+                <span class="txt">1 tsp italian seasoning</span>
+              </label><label class="item" for="sec-0-aggregated-items-parsed-quantities-item-34">
+                <input type="checkbox" id="sec-0-aggregated-items-parsed-quantities-item-34" data-item-id="sec-0-aggregated-items-parsed-quantities-item-34" />
+                <span class="txt">6 oz kielbasa cut into small bite-sized pieces</span>
+              </label><label class="item" for="sec-0-aggregated-items-parsed-quantities-item-35">
+                <input type="checkbox" id="sec-0-aggregated-items-parsed-quantities-item-35" data-item-id="sec-0-aggregated-items-parsed-quantities-item-35" />
+                <span class="txt">2 lb lean ground beef</span>
+              </label><label class="item" for="sec-0-aggregated-items-parsed-quantities-item-36">
+                <input type="checkbox" id="sec-0-aggregated-items-parsed-quantities-item-36" data-item-id="sec-0-aggregated-items-parsed-quantities-item-36" />
+                <span class="txt">6 cup low-sodium chicken broth</span>
+              </label><label class="item" for="sec-0-aggregated-items-parsed-quantities-item-37">
+                <input type="checkbox" id="sec-0-aggregated-items-parsed-quantities-item-37" data-item-id="sec-0-aggregated-items-parsed-quantities-item-37" />
+                <span class="txt">3 medium carrots peeled</span>
+              </label><label class="item" for="sec-0-aggregated-items-parsed-quantities-item-38">
+                <input type="checkbox" id="sec-0-aggregated-items-parsed-quantities-item-38" data-item-id="sec-0-aggregated-items-parsed-quantities-item-38" />
+                <span class="txt">2 tbsp melted butter 2 tablespoons hot sauce for brushing</span>
+              </label><label class="item" for="sec-0-aggregated-items-parsed-quantities-item-39">
+                <input type="checkbox" id="sec-0-aggregated-items-parsed-quantities-item-39" data-item-id="sec-0-aggregated-items-parsed-quantities-item-39" />
+                <span class="txt">4 tbsp olive oil</span>
+              </label><label class="item" for="sec-0-aggregated-items-parsed-quantities-item-40">
+                <input type="checkbox" id="sec-0-aggregated-items-parsed-quantities-item-40" data-item-id="sec-0-aggregated-items-parsed-quantities-item-40" />
+                <span class="txt">2 tbsp olives</span>
+              </label><label class="item" for="sec-0-aggregated-items-parsed-quantities-item-41">
+                <input type="checkbox" id="sec-0-aggregated-items-parsed-quantities-item-41" data-item-id="sec-0-aggregated-items-parsed-quantities-item-41" />
+                <span class="txt">1 cup orzo pasta</span>
+              </label><label class="item" for="sec-0-aggregated-items-parsed-quantities-item-42">
+                <input type="checkbox" id="sec-0-aggregated-items-parsed-quantities-item-42" data-item-id="sec-0-aggregated-items-parsed-quantities-item-42" />
+                <span class="txt">0.5 cup panko breadcrumbs</span>
+              </label><label class="item" for="sec-0-aggregated-items-parsed-quantities-item-43">
+                <input type="checkbox" id="sec-0-aggregated-items-parsed-quantities-item-43" data-item-id="sec-0-aggregated-items-parsed-quantities-item-43" />
+                <span class="txt">0.5 tsp paprika</span>
+              </label><label class="item" for="sec-0-aggregated-items-parsed-quantities-item-44">
+                <input type="checkbox" id="sec-0-aggregated-items-parsed-quantities-item-44" data-item-id="sec-0-aggregated-items-parsed-quantities-item-44" />
+                <span class="txt">1 red onion</span>
+              </label><label class="item" for="sec-0-aggregated-items-parsed-quantities-item-45">
+                <input type="checkbox" id="sec-0-aggregated-items-parsed-quantities-item-45" data-item-id="sec-0-aggregated-items-parsed-quantities-item-45" />
+                <span class="txt">0.5 tsp red pepper flakes</span>
+              </label><label class="item" for="sec-0-aggregated-items-parsed-quantities-item-46">
+                <input type="checkbox" id="sec-0-aggregated-items-parsed-quantities-item-46" data-item-id="sec-0-aggregated-items-parsed-quantities-item-46" />
+                <span class="txt">1.5 tsp salt</span>
+              </label><label class="item" for="sec-0-aggregated-items-parsed-quantities-item-47">
+                <input type="checkbox" id="sec-0-aggregated-items-parsed-quantities-item-47" data-item-id="sec-0-aggregated-items-parsed-quantities-item-47" />
+                <span class="txt">1 small sweet onion</span>
+              </label><label class="item" for="sec-0-aggregated-items-parsed-quantities-item-48">
+                <input type="checkbox" id="sec-0-aggregated-items-parsed-quantities-item-48" data-item-id="sec-0-aggregated-items-parsed-quantities-item-48" />
+                <span class="txt">2 tbsp tomato paste</span>
+              </label><label class="item" for="sec-0-aggregated-items-parsed-quantities-item-49">
+                <input type="checkbox" id="sec-0-aggregated-items-parsed-quantities-item-49" data-item-id="sec-0-aggregated-items-parsed-quantities-item-49" />
+                <span class="txt">2 tbsp vegetable oil</span>
+              </label><label class="item" for="sec-0-aggregated-items-parsed-quantities-item-50">
+                <input type="checkbox" id="sec-0-aggregated-items-parsed-quantities-item-50" data-item-id="sec-0-aggregated-items-parsed-quantities-item-50" />
+                <span class="txt">0.5 cup water</span>
+              </label><label class="item" for="sec-0-aggregated-items-parsed-quantities-item-51">
+                <input type="checkbox" id="sec-0-aggregated-items-parsed-quantities-item-51" data-item-id="sec-0-aggregated-items-parsed-quantities-item-51" />
+                <span class="txt">2 tbsp water</span>
+              </label><label class="item" for="sec-0-aggregated-items-parsed-quantities-item-52">
+                <input type="checkbox" id="sec-0-aggregated-items-parsed-quantities-item-52" data-item-id="sec-0-aggregated-items-parsed-quantities-item-52" />
+                <span class="txt">1 zucchini</span>
+              </label>
+            </div>
+          </section>
+<section class="section" data-section-id="sec-1-items-auto-corrected-verify-against-original">
+            <button class="section-header" type="button" data-toggle="sec-1-items-auto-corrected-verify-against-original">
+              <span class="chev" aria-hidden="true">▾</span>
+              <span class="h">Items auto-corrected (verify against original)</span>
+              <span class="count" data-count-for="sec-1-items-auto-corrected-verify-against-original"></span>
+            </button>
+            <div class="section-body" id="sec-1-items-auto-corrected-verify-against-original">
+              <label class="item" for="sec-1-items-auto-corrected-verify-against-original-item-0">
+                <input type="checkbox" id="sec-1-items-auto-corrected-verify-against-original-item-0" data-item-id="sec-1-items-auto-corrected-verify-against-original-item-0" />
+                <span class="txt">* 1/2 cup water (OCR '%'→1/2; check original recipe)</span>
+              </label><label class="item" for="sec-1-items-auto-corrected-verify-against-original-item-1">
+                <input type="checkbox" id="sec-1-items-auto-corrected-verify-against-original-item-1" data-item-id="sec-1-items-auto-corrected-verify-against-original-item-1" />
+                <span class="txt">* 1/2 teaspoon black pepper (OCR '%'→1/2; check original recipe)</span>
+              </label><label class="item" for="sec-1-items-auto-corrected-verify-against-original-item-2">
+                <input type="checkbox" id="sec-1-items-auto-corrected-verify-against-original-item-2" data-item-id="sec-1-items-auto-corrected-verify-against-original-item-2" />
+                <span class="txt">* 1/2 teaspoon dried basil (OCR '%'→1/2; check original recipe)</span>
+              </label><label class="item" for="sec-1-items-auto-corrected-verify-against-original-item-3">
+                <input type="checkbox" id="sec-1-items-auto-corrected-verify-against-original-item-3" data-item-id="sec-1-items-auto-corrected-verify-against-original-item-3" />
+                <span class="txt">* 1/2 teaspoon paprika (OCR '%'→1/2; check original recipe)</span>
+              </label><label class="item" for="sec-1-items-auto-corrected-verify-against-original-item-4">
+                <input type="checkbox" id="sec-1-items-auto-corrected-verify-against-original-item-4" data-item-id="sec-1-items-auto-corrected-verify-against-original-item-4" />
+                <span class="txt">* 1/2 teaspoon red pepper flakes (OCR '%'→1/2; check original recipe)</span>
+              </label><label class="item" for="sec-1-items-auto-corrected-verify-against-original-item-5">
+                <input type="checkbox" id="sec-1-items-auto-corrected-verify-against-original-item-5" data-item-id="sec-1-items-auto-corrected-verify-against-original-item-5" />
+                <span class="txt">* 1/2 teaspoon salt (OCR '%'→1/2; check original recipe)</span>
+              </label>
+            </div>
+          </section>
+<section class="section" data-section-id="sec-2-items-needing-manual-review-unparsed-or-ambiguous">
+            <button class="section-header" type="button" data-toggle="sec-2-items-needing-manual-review-unparsed-or-ambiguous">
+              <span class="chev" aria-hidden="true">▾</span>
+              <span class="h">Items needing manual review (unparsed or ambiguous)</span>
+              <span class="count" data-count-for="sec-2-items-needing-manual-review-unparsed-or-ambiguous"></span>
+            </button>
+            <div class="section-body" id="sec-2-items-needing-manual-review-unparsed-or-ambiguous">
+              <label class="item" for="sec-2-items-needing-manual-review-unparsed-or-ambiguous-item-0">
+                <input type="checkbox" id="sec-2-items-needing-manual-review-unparsed-or-ambiguous-item-0" data-item-id="sec-2-items-needing-manual-review-unparsed-or-ambiguous-item-0" />
+                <span class="txt"># 2 medium zucchinis, sliced</span>
+              </label><label class="item" for="sec-2-items-needing-manual-review-unparsed-or-ambiguous-item-1">
+                <input type="checkbox" id="sec-2-items-needing-manual-review-unparsed-or-ambiguous-item-1" data-item-id="sec-2-items-needing-manual-review-unparsed-or-ambiguous-item-1" />
+                <span class="txt">'*% cup feta</span>
+              </label><label class="item" for="sec-2-items-needing-manual-review-unparsed-or-ambiguous-item-2">
+                <input type="checkbox" id="sec-2-items-needing-manual-review-unparsed-or-ambiguous-item-2" data-item-id="sec-2-items-needing-manual-review-unparsed-or-ambiguous-item-2" />
+                <span class="txt">'1 container cherry tomatoes</span>
+              </label><label class="item" for="sec-2-items-needing-manual-review-unparsed-or-ambiguous-item-3">
+                <input type="checkbox" id="sec-2-items-needing-manual-review-unparsed-or-ambiguous-item-3" data-item-id="sec-2-items-needing-manual-review-unparsed-or-ambiguous-item-3" />
+                <span class="txt">1(1 ounce) envelope dry onion soup mix</span>
+              </label><label class="item" for="sec-2-items-needing-manual-review-unparsed-or-ambiguous-item-4">
+                <input type="checkbox" id="sec-2-items-needing-manual-review-unparsed-or-ambiguous-item-4" data-item-id="sec-2-items-needing-manual-review-unparsed-or-ambiguous-item-4" />
+                <span class="txt">1(1 ounce) packet dry au jus mix</span>
+              </label><label class="item" for="sec-2-items-needing-manual-review-unparsed-or-ambiguous-item-5">
+                <input type="checkbox" id="sec-2-items-needing-manual-review-unparsed-or-ambiguous-item-5" data-item-id="sec-2-items-needing-manual-review-unparsed-or-ambiguous-item-5" />
+                <span class="txt">Buns</span>
+              </label><label class="item" for="sec-2-items-needing-manual-review-unparsed-or-ambiguous-item-6">
+                <input type="checkbox" id="sec-2-items-needing-manual-review-unparsed-or-ambiguous-item-6" data-item-id="sec-2-items-needing-manual-review-unparsed-or-ambiguous-item-6" />
+                <span class="txt">Fresh basil for garnish</span>
+              </label><label class="item" for="sec-2-items-needing-manual-review-unparsed-or-ambiguous-item-7">
+                <input type="checkbox" id="sec-2-items-needing-manual-review-unparsed-or-ambiguous-item-7" data-item-id="sec-2-items-needing-manual-review-unparsed-or-ambiguous-item-7" />
+                <span class="txt">Lettuce</span>
+              </label><label class="item" for="sec-2-items-needing-manual-review-unparsed-or-ambiguous-item-8">
+                <input type="checkbox" id="sec-2-items-needing-manual-review-unparsed-or-ambiguous-item-8" data-item-id="sec-2-items-needing-manual-review-unparsed-or-ambiguous-item-8" />
+                <span class="txt">red onion, thin slices:</span>
+              </label><label class="item" for="sec-2-items-needing-manual-review-unparsed-or-ambiguous-item-9">
+                <input type="checkbox" id="sec-2-items-needing-manual-review-unparsed-or-ambiguous-item-9" data-item-id="sec-2-items-needing-manual-review-unparsed-or-ambiguous-item-9" />
+                <span class="txt">Salt and pepper to taste</span>
+              </label><label class="item" for="sec-2-items-needing-manual-review-unparsed-or-ambiguous-item-10">
+                <input type="checkbox" id="sec-2-items-needing-manual-review-unparsed-or-ambiguous-item-10" data-item-id="sec-2-items-needing-manual-review-unparsed-or-ambiguous-item-10" />
+                <span class="txt">salt and pepper, to taste</span>
+              </label><label class="item" for="sec-2-items-needing-manual-review-unparsed-or-ambiguous-item-11">
+                <input type="checkbox" id="sec-2-items-needing-manual-review-unparsed-or-ambiguous-item-11" data-item-id="sec-2-items-needing-manual-review-unparsed-or-ambiguous-item-11" />
+                <span class="txt">Spaghetti Pasta</span>
+              </label><label class="item" for="sec-2-items-needing-manual-review-unparsed-or-ambiguous-item-12">
+                <input type="checkbox" id="sec-2-items-needing-manual-review-unparsed-or-ambiguous-item-12" data-item-id="sec-2-items-needing-manual-review-unparsed-or-ambiguous-item-12" />
+                <span class="txt">Y cup all-purpose flour</span>
+              </label><label class="item" for="sec-2-items-needing-manual-review-unparsed-or-ambiguous-item-13">
+                <input type="checkbox" id="sec-2-items-needing-manual-review-unparsed-or-ambiguous-item-13" data-item-id="sec-2-items-needing-manual-review-unparsed-or-ambiguous-item-13" />
+                <span class="txt">Ye cup milk</span>
+              </label>
+            </div>
+          </section>
+<section class="section" data-section-id="sec-3-recipes-selected">
+            <button class="section-header" type="button" data-toggle="sec-3-recipes-selected">
+              <span class="chev" aria-hidden="true">▾</span>
+              <span class="h">Recipes selected</span>
+              <span class="count" data-count-for="sec-3-recipes-selected"></span>
+            </button>
+            <div class="section-body" id="sec-3-recipes-selected">
+              <label class="item" for="sec-3-recipes-selected-item-0">
+                <input type="checkbox" id="sec-3-recipes-selected-item-0" data-item-id="sec-3-recipes-selected-item-0" />
+                <span class="txt">Mediterranean Chicken Zucchini Bake (30 min)</span>
+              </label><label class="item" for="sec-3-recipes-selected-item-1">
+                <input type="checkbox" id="sec-3-recipes-selected-item-1" data-item-id="sec-3-recipes-selected-item-1" />
+                <span class="txt">Cacio e Pepe (20 min)</span>
+              </label><label class="item" for="sec-3-recipes-selected-item-2">
+                <input type="checkbox" id="sec-3-recipes-selected-item-2" data-item-id="sec-3-recipes-selected-item-2" />
+                <span class="txt">Buffalo Chicken Burgers with Whipped Feta Spread (25 min)</span>
+              </label><label class="item" for="sec-3-recipes-selected-item-3">
+                <input type="checkbox" id="sec-3-recipes-selected-item-3" data-item-id="sec-3-recipes-selected-item-3" />
+                <span class="txt">Keto Feta Burgers With Tomato Cream Sauce (10 min)</span>
+              </label><label class="item" for="sec-3-recipes-selected-item-4">
+                <input type="checkbox" id="sec-3-recipes-selected-item-4" data-item-id="sec-3-recipes-selected-item-4" />
+                <span class="txt">Slow Cooker Salisbury Steak (15 min)</span>
+              </label><label class="item" for="sec-3-recipes-selected-item-5">
+                <input type="checkbox" id="sec-3-recipes-selected-item-5" data-item-id="sec-3-recipes-selected-item-5" />
+                <span class="txt">Easy Balsamic Chicken &amp; Veggie Orzo (25 min)</span>
+              </label><label class="item" for="sec-3-recipes-selected-item-6">
+                <input type="checkbox" id="sec-3-recipes-selected-item-6" data-item-id="sec-3-recipes-selected-item-6" />
+                <span class="txt">Lentil Soup (15 min)</span>
+              </label>
+            </div>
+          </section>
+</main>
+
+<script>
+(function() {
+  const STORAGE_KEY = 'archivinator_grocery_7369c1f417';
+
+  function loadState() {
+    try {
+      return JSON.parse(localStorage.getItem(STORAGE_KEY) || "{}") || {};
+    } catch (e) {
+      return {};
+    }
+  }
+
+  function saveState(state) {
+    try {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+    } catch (e) {}
+  }
+
+  function updateCounts() {
+    document.querySelectorAll('.section').forEach(sec => {
+      const body = sec.querySelector('.section-body');
+      const boxes = Array.from(body.querySelectorAll('input[type="checkbox"]'));
+      const checked = boxes.filter(b => b.checked).length;
+      const total = boxes.length;
+      const countEl = sec.querySelector('[data-count-for]');
+      if (countEl) countEl.textContent = total ? `${checked}/${total}` : '';
+    });
+  }
+
+  const state = loadState();
+
+  // restore checkboxes
+  document.querySelectorAll('input[type="checkbox"][data-item-id]').forEach(cb => {
+    const id = cb.getAttribute('data-item-id');
+    cb.checked = !!state[id];
+    cb.closest('.item')?.classList.toggle('checked', cb.checked);
+
+    cb.addEventListener('change', () => {
+      state[id] = cb.checked;
+      saveState(state);
+      cb.closest('.item')?.classList.toggle('checked', cb.checked);
+      updateCounts();
+    });
+  });
+
+  // section toggles
+  document.querySelectorAll('[data-toggle]').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const targetId = btn.getAttribute('data-toggle');
+      const body = document.getElementById(targetId);
+      if (!body) return;
+      const isHidden = body.style.display === 'none';
+      body.style.display = isHidden ? '' : 'none';
+      const chev = btn.querySelector('.chev');
+      if (chev) chev.textContent = isHidden ? '▾' : '▸';
+    });
+  });
+
+  document.getElementById('btnClear')?.addEventListener('click', () => {
+    if (!confirm('Clear all checkmarks?')) return;
+    for (const k in state) delete state[k];
+    saveState(state);
+    document.querySelectorAll('input[type="checkbox"][data-item-id]').forEach(cb => {
+      cb.checked = false;
+      cb.closest('.item')?.classList.remove('checked');
+    });
+    updateCounts();
+  });
+
+  document.getElementById('btnExpand')?.addEventListener('click', () => {
+    document.querySelectorAll('.section-body').forEach(body => body.style.display = '');
+    document.querySelectorAll('.section-header .chev').forEach(ch => ch.textContent = '▾');
+  });
+
+  document.getElementById('btnCollapse')?.addEventListener('click', () => {
+    document.querySelectorAll('.section-body').forEach(body => body.style.display = 'none');
+    document.querySelectorAll('.section-header .chev').forEach(ch => ch.textContent = '▸');
+  });
+
+  updateCounts();
+})();
+</script>
+</body>
+</html>
